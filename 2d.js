@@ -20,6 +20,7 @@ canvas.addEventListener("click", e => {
   }
   drawPoint(x, y);
   if (points.length === 4) {
+    implementForm(points);
     drawCurve(points, ctx, arrayCords);
     calcMirror();
   }
@@ -99,4 +100,60 @@ function getBezierCurve(arr) {
     res.push({ x: xtmp, y: ytmp }); // запушиваем конечный результат в наш новыйй массив
   }
   return res; // возвращаем его
+}
+
+function getForm(points) {
+  return points
+    .map((point, index) => {
+      return `
+    <div style="margin: 10px;">
+    <label for="${index}X">
+      ${index + 1}-я точка
+    </label>
+    <input style="width: 50px;" value=${point.x} id="${index}X" type="number" />
+    <input style="width: 50px;" value=${point.y} id="${index}Y" type="number" />
+  </div>`;
+    })
+    .join(" ");
+}
+
+function implementForm(points) {
+  const form = document.getElementById("form");
+  if (form.innerHTML.includes("input")) {
+    form.innerHTML = "";
+  }
+  form.innerHTML += getForm(points);
+  form.innerHTML += `<button onclick="getValues()">Отрисовать</button>`;
+}
+
+function getValues() {
+  const firstX = +document.getElementById("0X").value;
+  const firstY = +document.getElementById("0Y").value;
+  const secondX = +document.getElementById("1X").value;
+  const secondY = +document.getElementById("1Y").value;
+  const thirdX = +document.getElementById("2X").value;
+  const thirdY = +document.getElementById("2Y").value;
+  const fourthX = +document.getElementById("3X").value;
+  const fourthY = +document.getElementById("3Y").value;
+
+  points = [
+    {
+      x: firstX,
+      y: firstY
+    },
+    {
+      x: secondX,
+      y: secondY
+    },
+    {
+      x: thirdX,
+      y: thirdY
+    },
+    {
+      x: fourthX,
+      y: fourthY
+    }
+  ];
+  drawCurve(points, ctx, arrayCords);
+  calcMirror();
 }

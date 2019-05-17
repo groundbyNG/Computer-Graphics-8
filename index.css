@@ -20,6 +20,12 @@ canvas {
   margin: 10px 10px 10px 0;
 }
 
+#form {
+  margin: 30px;
+  width: 200px;
+  height: 200px;
+}
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;
