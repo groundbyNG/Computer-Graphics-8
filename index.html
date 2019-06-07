@@ -6,20 +6,24 @@
   </head>
   <body>
     <label class="switch">
-      <input type="checkbox" />
+      <input type="checkbox" onclick="tumbler()" id="changeDemension" />
       <span class="slider round">
         <span class="three">3D</span>
         <span class="two">2D</span>
       </span>
     </label>
-    <div class="container">
-      <canvas id="canvas" width="300" height="600"></canvas>
-      <canvas id="mirror" width="300" height="600"></canvas>
+    <div class="twoDemension">
+      <div class="container">
+        <canvas id="canvas" width="300" height="600"></canvas>
+        <canvas id="mirror" width="300" height="600"></canvas>
+      </div>
+      <div id="form"></div>
     </div>
-    <div id="form"></div>
+    <div class="threeDemension"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
     <script src="./orbitControls.js"></script>
     <script src="./2d.js"></script>
-    <!-- <script src="./3d.js"></script> -->
+    <script src="./3d.js"></script>
+    <script src="./tumbler.js"></script>
   </body>
 </html>

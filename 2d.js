@@ -12,7 +12,7 @@ canvas.addEventListener("click", e => {
   const rect = canvas.getBoundingClientRect();
   const x = Math.floor(e.clientX - rect.left);
   const y = Math.floor(e.clientY - rect.top);
-  if (points.length >= 4) {
+  if (points.length > 4) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     points = [{ x, y }];
   } else {
@@ -21,7 +21,8 @@ canvas.addEventListener("click", e => {
   drawPoint(x, y);
   if (points.length === 4) {
     implementForm(points);
-    drawCurve(points, ctx, arrayCords);
+    arrayCords = getBezierCurve(points); // получаем координаты точек кривой безье
+    drawCurve(ctx, arrayCords);
     calcMirror();
   }
 });
@@ -33,8 +34,9 @@ function calcMirror() {
       y: point.y
     };
   });
-  const curvePoints = [];
-  drawCurve(mirrorPoints, ctxMirror, curvePoints);
+  const curveMirrorPoints = getBezierCurve(mirrorPoints);
+
+  drawCurve(ctxMirror, curveMirrorPoints);
 }
 
 function drawPoint(x, y) {
@@ -47,17 +49,16 @@ function drawPoint(x, y) {
   ctx.fill(); // Close the path and fill.
 }
 
-function drawCurve(points, ctx, arrayCords) {
-  arrayCords = getBezierCurve(points); // получаем координаты точек кривой безье
+function drawCurve(ctx, coords) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.beginPath(); // очищаем полотно и начинаем рисовать
-  ctx.moveTo(arrayCords[0].x, arrayCords[0].y); // двигаемся к 1 точке
+  ctx.moveTo(coords[0].x, coords[0].y); // двигаемся к 1 точке
 
   let i = 0;
   const interval = setInterval(function() {
     drawCurvePoint(); // вызываем функцию прорисовки
     i++; // увеличиваем i
-    if (i >= arrayCords.length) {
+    if (i >= coords.length) {
       // проверяем не конец ли массива?
       clearInterval(interval); // конец, удаляем интервал
     }
@@ -65,7 +66,7 @@ function drawCurve(points, ctx, arrayCords) {
 
   function drawCurvePoint() {
     // функция прорисовки точки
-    ctx.lineTo(arrayCords[i].x, arrayCords[i].y); // рисуем итую точку
+    ctx.lineTo(coords[i].x, coords[i].y); // рисуем итую точку
     ctx.stroke();
   }
 }
@@ -154,6 +155,7 @@ function getValues() {
       y: fourthY
     }
   ];
-  drawCurve(points, ctx, arrayCords);
+  arrayCords = getBezierCurve(points);
+  drawCurve(ctx, arrayCords);
   calcMirror();
 }

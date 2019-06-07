@@ -10,6 +10,14 @@ canvas {
   border-right-style: dashed;
   margin: 10px 0 10px 10px;
 }
+
+.twoDemension {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .container {
   display: flex;
 }
